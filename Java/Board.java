@@ -7,9 +7,11 @@ class Board{
     char[][] gameBoard = new char[3][3];
     ArrayList<String> positions = new ArrayList<>(Arrays.asList("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"));
 
+
     Board(){
         this.initializeEmptyBoard();
     }
+
 
     void initializeEmptyBoard(){
         for(int j = 0; j < 3; j++){
@@ -19,9 +21,11 @@ class Board{
         }
     }
 
+
     char[][] getGameBoard(){
         return this.gameBoard;
     }
+
 
     void printBoard(){
         System.out.println("   | 1 | 2 | 3 |");
@@ -33,6 +37,18 @@ class Board{
         System.out.println(" C | " + this.gameBoard[2][0] +" | " + this.gameBoard[2][1] + " | " + this.gameBoard[2][2] + " |");
         System.out.println("////////////////");
     }
+
+    void askPlayerMove(char player){
+        Scanner input = new Scanner(System.in);
+        String temporalMove;
+        do{
+            System.out.println("Player (" + player + ") move");
+            System.out.println("Please enter the column and row of your move (Example: A1)");
+            temporalMove = input.nextLine();
+        }
+        while(!this.submitMove(temporalMove, player));
+    }   
+
 
     boolean submitMove(String move, char player){
         boolean isMoveDone;
@@ -52,6 +68,7 @@ class Board{
         return isMoveDone;
     }
 
+
     boolean isMoveValid(String move){
         boolean isValid = false;
         for(String position: this.positions){
@@ -61,6 +78,7 @@ class Board{
         }
         return isValid;
     }
+
 
     int[] getCoordenates(String move){
         //Move Example (A1) --> First letter = row 'A', Second letter = Column '1'
@@ -77,6 +95,7 @@ class Board{
         return coordenates;
     }
 
+
     int getNumberRow(char letter){
         int row = 0;
         if (letter == 'A'){row = 0;}
@@ -84,6 +103,7 @@ class Board{
         else if (letter == 'C'){row = 2;}
         return row;
     }
+
 
     int getNumberColumn(char letter){
         int column = 0;
@@ -93,23 +113,25 @@ class Board{
         return column;
     }
 
+    boolean isWinner(char player){
+        boolean isWinner = false;
+        char[][] matrix_position = this.gameBoard;
 
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        Board gameBoard = new Board();
-        char[][] board;
-        int[] coor;
-        char player = 'O';
+        //horizontals
+        if(matrix_position[0][0] == player && matrix_position[0][1] == player && matrix_position[0][2] == player){isWinner = true;}
+        else if(matrix_position[1][0] == player && matrix_position[1][1] == player && matrix_position[1][2] == player){isWinner = true;}
+        else if(matrix_position[2][0] == player && matrix_position[2][1] == player && matrix_position[2][2] == player){isWinner = true;}
 
-        board = gameBoard.getGameBoard();
-        gameBoard.printBoard();
-        System.out.println("Please enter the column and row of your move (Example: A1)");
-        String move = input.nextLine();
-        coor = gameBoard.getCoordenates(move);
+        //Verticals
+        else if(matrix_position[0][0] == player && matrix_position[1][0] == player && matrix_position[2][0] == player){isWinner = true;}
+        else if(matrix_position[0][1] == player && matrix_position[1][1] == player && matrix_position[2][1] == player){isWinner = true;}
+        else if(matrix_position[0][2] == player && matrix_position[1][2] == player && matrix_position[2][2] == player){isWinner = true;}
 
-        System.out.println("Move: " + move);
-        System.out.println("(" + coor[0] + ", "+  coor[1] + ")");
-        gameBoard.submitMove(move, player);
-        gameBoard.printBoard();
+        //Diagonals
+        else if(matrix_position[0][0] == player && matrix_position[1][1] == player && matrix_position[2][2] == player){isWinner = true;}
+        else if(matrix_position[0][2] == player && matrix_position[1][1] == player && matrix_position[2][0] == player){isWinner = true;}
+
+        return isWinner;
     }
+
 }

@@ -26,6 +26,5 @@ class Player {
     boolean getIsHuman(){
         return this.isHuman;
     }
-
     
 }
