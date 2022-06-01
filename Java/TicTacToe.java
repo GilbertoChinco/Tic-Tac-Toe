@@ -1,11 +1,32 @@
+import java.util.Scanner;
+
 class TicTacToe {
 
+    Scanner input = new Scanner(System.in);
     Board gameBoard = new Board();
     Player player1 = new Player(true, 'O');
     Player player2 = new Player(true, 'X');
     int playerMoves = 0;
 
     TicTacToe(){
+        this.start();
+        this.end();
+    }
+    
+    void start(){
+        while(true){
+            System.out.println("Would you like to play?: ");
+            String start = input.nextLine();
+            if(start.equals("yes")){break;}
+        }
+        this.play();
+    }
+
+    void end(){
+        System.out.println("The game has ended");
+    }
+
+    void play(){
         gameBoard.printBoard();
         while(this.playerMoves < 10){
 
@@ -47,7 +68,4 @@ class TicTacToe {
         System.out.println("The winner is " + player + "!!!!");
     }
 
-    public static void main(String[] args) {
-        TicTacToe game = new TicTacToe();
-    }
 }
